@@ -2,38 +2,36 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { CategoriaService } from "../service/categoria.service";
 import { Categoria } from "../entities/categoria.entity";
 
-
 @Controller("/categorias")
 export class CategoriaController {
     
     constructor(private readonly categoriaService: CategoriaService) { }
 
-   @Post()//criar
+   @Post()
     @HttpCode(HttpStatus.CREATED)
     create(@Body() categoria: Categoria): Promise<Categoria> {
         return this.categoriaService.create(categoria);
     }
 
- @Get()//todos
+ @Get()
     @HttpCode(HttpStatus.OK)
     findAll(): Promise<Categoria[]> {
         return this.categoriaService.findAll();
     }
 
-    @Get('/:id')//pot id
+    @Get('/:id')
     @HttpCode(HttpStatus.OK)
     findById(@Param('id', ParseIntPipe) id: number): Promise<Categoria> {
         return this.categoriaService.findById(id);
     }
 
-    @Get('/nome/:nome')//por nome
+    @Get('/nome/:nome')
     @HttpCode(HttpStatus.OK)
     findByNome(@Param('nome') nome: string): Promise<Categoria[]> {
         return this.categoriaService.findByNome(nome);
     }
-
     
-    @Put()//atualizar
+    @Put()
     @HttpCode(HttpStatus.OK)
     update(@Body() categoria: Categoria): Promise<Categoria> {
         return this.categoriaService.update(categoria);
