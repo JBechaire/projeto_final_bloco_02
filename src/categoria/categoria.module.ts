@@ -10,5 +10,6 @@ import { CategoriaService } from "./service/categoria.service";
   providers: [CategoriaService],
   controllers: [CategoriaController],
   exports: [TypeOrmModule]
+  
 })
 export class CategoriaModule {}
