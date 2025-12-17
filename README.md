@@ -1,98 +1,123 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🏥 Projeto Final Bloco 02 – Sistema Farmácia
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto faz parte do **Bloco 02** e tem como objetivo criar um sistema para gerenciamento de categorias de produtos de uma farmácia, utilizando **MySQL**, **NestJS** e boas práticas de desenvolvimento.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## ✅ Descrição do Projeto
+O sistema gerencia categorias de produtos comercializados pela farmácia. Cada categoria possui um nome e uma descrição, permitindo organizar os produtos de forma eficiente.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 📌 Estrutura do Banco de Dados
+- **Nome do Banco:** `db_farmacia`
+- **Tabela:** `tb_categorias`
+- **Atributos:**
+  - `id` (INT, PK, AUTO_INCREMENT)
+  - `nome` (VARCHAR(100), NOT NULL)
+  - `descricao` (VARCHAR(255), NOT NULL)
 
-```bash
-$ npm install
+---
+
+## 🔧 Scripts SQL
+
+### 1. Criar Banco de Dados
+```sql
+CREATE DATABASE IF NOT EXISTS db_farmacia
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
 ```
 
-## Compile and run the project
+### 2. Criar Tabela `tb_categorias`
+```sql
+USE db_farmacia;
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+CREATE TABLE IF NOT EXISTS tb_categorias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  descricao VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### 3. Inserir 5 Registros
+```sql
+INSERT INTO tb_categorias (nome, descricao) VALUES
+('Medicamentos', 'Produtos para tratamento e prevenção de doenças'),
+('Cosméticos', 'Produtos para cuidados pessoais e beleza'),
+('Vitaminas', 'Suplementos vitamínicos e minerais'),
+('Higiene', 'Produtos para higiene pessoal e limpeza'),
+('Infantil', 'Produtos destinados ao cuidado infantil');
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+### 4. Consultar Todas as Categorias
+```sql
+SELECT * FROM tb_categorias;
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Consultar Categorias com a letra "C" no nome
+```sql
+SELECT * FROM tb_categorias
+WHERE nome LIKE '%C%';
+```
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🌐 Configuração do Ambiente (.env)
+Crie um arquivo `.env` na raiz do projeto com:
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASS=senha_forte_aqui
+DB_NAME=db_farmacia
+```
+Adicione `.env` ao `.gitignore` para não versionar credenciais.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 🚀 Como Executar
+1. Instale o MySQL e configure o banco.
+2. Clone o repositório:
+```bash
+git clone https://github.com/JBechaire/projeto_final_bloco_02.git
+cd projeto_final_bloco_02
+```
+3. Instale as dependências:
+```bash
+npm install
+```
+4. Configure o arquivo `.env`.
+5. Execute a aplicação:
+```bash
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 🧪 Testes com Insomnia
+- Configure um **Environment** no Insomnia com:
+```json
+{
+  "API_URL": "http://localhost:3000"
+}
+```
+- Use `{{ API_URL }}/categorias` nas requisições.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Exemplo de requisição **POST** para cadastrar categoria:
+```json
+{
+  "nome": "Medicamentos",
+  "descricao": "Produtos para tratamento e prevenção de doenças"
+}
+```
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 🔮 Próximos Passos
+- Criar tabela `tb_produtos` relacionada a `tb_categorias`.
+- Implementar migrations para manter o banco atualizado.
+- Adicionar autenticação JWT.
+
+---
+
+**Repositório:** [GitHub Projeto Final Bloco 02](https://github.com/JBechaire/projeto_final_bloco_02)
